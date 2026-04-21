@@ -3,29 +3,692 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Markdown to PDF</title>
+  <title>Markdown to PDF Pro — Beautiful Documents in Seconds</title>
+  <meta name="description" content="Convert Markdown to professional PDF documents instantly. Perfect for reports, documentation, resumes, and ebooks.">
+  <meta property="og:title" content="Markdown to PDF Pro">
+  <meta property="og:description" content="Convert Markdown to beautiful PDF documents instantly">
+  <meta property="og:type" content="website">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: linear-gradient(135deg, #667eea, #764ba2); min-height: 100vh; color: #333; }
-    .container { max-width: 800px; margin: 0 auto; padding: 60px 20px; text-align: center; color: white; }
-    h1 { font-size: 3rem; margin-bottom: 20px; }
-    p { font-size: 1.2rem; opacity: 0.9; margin-bottom: 40px; }
-    .cta { display: inline-block; background: white; color: #667eea; padding: 15px 40px; border-radius: 50px; text-decoration: none; font-weight: 700; font-size: 1.1rem; }
-    .cta:hover { transform: translateY(-2px); box-shadow: 0 10px 30px rgba(0,0,0,0.2); }
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: #0a0a0a;
+      color: #fff;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+    .gradient-text {
+      background: linear-gradient(135deg, #8b5cf6, #3b82f6);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .gradient-text-alt {
+      background: linear-gradient(135deg, #f97316, #ec4899);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    /* Navigation */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      padding: 1.2rem 2rem;
+      background: rgba(10, 10, 10, 0.8);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+      z-index: 1000;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .logo {
+      font-weight: 800;
+      font-size: 1.4rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .nav-cta {
+      background: linear-gradient(135deg, #8b5cf6, #3b82f6);
+      color: white;
+      padding: 0.6rem 1.5rem;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.9rem;
+      transition: all 0.3s ease;
+    }
+    .nav-cta:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 30px rgba(139, 92, 246, 0.4);
+    }
+
+    /* Hero Section */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 8rem 2rem 4rem;
+      position: relative;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: 50%; left: 50%;
+      width: 800px; height: 800px;
+      background: radial-gradient(circle, rgba(139, 92, 246, 0.15), transparent 70%);
+      transform: translate(-50%, -50%);
+      pointer-events: none;
+    }
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: rgba(139, 92, 246, 0.1);
+      border: 1px solid rgba(139, 92, 246, 0.3);
+      padding: 0.5rem 1rem;
+      border-radius: 50px;
+      font-size: 0.85rem;
+      color: #a78bfa;
+      margin-bottom: 2rem;
+      animation: fadeInUp 0.6s ease;
+    }
+    .hero h1 {
+      font-size: clamp(2.5rem, 6vw, 4.5rem);
+      font-weight: 800;
+      line-height: 1.1;
+      margin-bottom: 1.5rem;
+      animation: fadeInUp 0.6s ease 0.1s both;
+    }
+    .hero p {
+      font-size: 1.25rem;
+      color: #94a3b8;
+      max-width: 600px;
+      margin-bottom: 2.5rem;
+      animation: fadeInUp 0.6s ease 0.2s both;
+    }
+    .hero-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.75rem;
+      background: linear-gradient(135deg, #8b5cf6, #3b82f6);
+      color: white;
+      padding: 1.1rem 2.5rem;
+      border-radius: 12px;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 1.1rem;
+      animation: pulse 2s infinite, fadeInUp 0.6s ease 0.3s both;
+      box-shadow: 0 0 40px rgba(139, 92, 246, 0.4);
+      transition: all 0.3s ease;
+      cursor: pointer;
+      border: none;
+    }
+    .hero-cta:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 0 60px rgba(139, 92, 246, 0.6);
+    }
+    @keyframes pulse {
+      0%, 100% { box-shadow: 0 0 40px rgba(139, 92, 246, 0.4); }
+      50% { box-shadow: 0 0 70px rgba(139, 92, 246, 0.7); }
+    }
+    .trust-badges {
+      display: flex;
+      gap: 2rem;
+      margin-top: 3rem;
+      color: #64748b;
+      font-size: 0.9rem;
+      animation: fadeInUp 0.6s ease 0.4s both;
+    }
+    .trust-badges span {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    /* Demo Section */
+    .demo-section {
+      padding: 6rem 2rem;
+      background: linear-gradient(180deg, #0a0a0a, #0f172a);
+    }
+    .section-header {
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+    .section-header h2 {
+      font-size: 2.5rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+    }
+    .section-header p {
+      color: #94a3b8;
+      font-size: 1.1rem;
+    }
+    .demo-container {
+      max-width: 1100px;
+      margin: 0 auto;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 20px;
+      padding: 2rem;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+    }
+    .demo-box {
+      background: rgba(0, 0, 0, 0.3);
+      border-radius: 12px;
+      padding: 1.5rem;
+      font-family: 'Monaco', 'Consolas', monospace;
+      font-size: 0.85rem;
+      line-height: 1.6;
+      color: #e2e8f0;
+      overflow: auto;
+      min-height: 300px;
+      border: 1px solid rgba(255,255,255,0.05);
+    }
+    .demo-box h4 {
+      color: #94a3b8;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 1rem;
+      font-family: 'Inter', sans-serif;
+    }
+    .demo-box .md-h1 { color: #f97316; font-weight: bold; }
+    .demo-box .md-h2 { color: #3b82f6; font-weight: bold; }
+    .demo-box .md-code { color: #22c55e; background: rgba(34, 197, 94, 0.1); padding: 0.1rem 0.3rem; border-radius: 4px; }
+    .demo-box .md-bold { font-weight: bold; color: #eab308; }
+    .demo-arrow {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      background: linear-gradient(135deg, #8b5cf6, #3b82f6);
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      box-shadow: 0 10px 30px rgba(139, 92, 246, 0.5);
+    }
+    .demo-wrapper { position: relative; }
+
+    /* Features Section */
+    .features {
+      padding: 6rem 2rem;
+      background: #0a0a0a;
+    }
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+    .feature-card {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      border-radius: 16px;
+      padding: 2rem;
+      transition: all 0.3s ease;
+    }
+    .feature-card:hover {
+      border-color: rgba(139, 92, 246, 0.5);
+      transform: translateY(-4px);
+      box-shadow: 0 25px 50px -12px rgba(139, 92, 246, 0.2);
+    }
+    .feature-icon {
+      width: 48px;
+      height: 48px;
+      background: linear-gradient(135deg, #8b5cf6, #3b82f6);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      margin-bottom: 1.25rem;
+    }
+    .feature-card h3 {
+      font-size: 1.2rem;
+      font-weight: 600;
+      margin-bottom: 0.75rem;
+    }
+    .feature-card p {
+      color: #94a3b8;
+      font-size: 0.95rem;
+      line-height: 1.6;
+    }
+
+    /* How It Works */
+    .how-it-works {
+      padding: 6rem 2rem;
+      background: linear-gradient(180deg, #0f172a, #0a0a0a);
+    }
+    .steps {
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      max-width: 900px;
+      margin: 0 auto;
+      flex-wrap: wrap;
+    }
+    .step {
+      flex: 1;
+      min-width: 250px;
+      text-align: center;
+      padding: 2rem;
+    }
+    .step-number {
+      width: 60px;
+      height: 60px;
+      background: linear-gradient(135deg, #8b5cf6, #3b82f6);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin: 0 auto 1.5rem;
+      box-shadow: 0 10px 30px rgba(139, 92, 246, 0.4);
+    }
+    .step h3 {
+      font-size: 1.2rem;
+      font-weight: 600;
+      margin-bottom: 0.75rem;
+    }
+    .step p {
+      color: #94a3b8;
+      font-size: 0.95rem;
+    }
+
+    /* Pricing */
+    .pricing {
+      padding: 6rem 2rem;
+      background: #0a0a0a;
+    }
+    .pricing-card {
+      max-width: 400px;
+      margin: 0 auto;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(139, 92, 246, 0.3);
+      border-radius: 24px;
+      padding: 3rem 2rem;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .pricing-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, #8b5cf6, #3b82f6);
+    }
+    .pricing-badge {
+      background: rgba(139, 92, 246, 0.2);
+      color: #a78bfa;
+      padding: 0.4rem 1rem;
+      border-radius: 50px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      display: inline-block;
+      margin-bottom: 1.5rem;
+    }
+    .pricing-card h3 {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+    .price {
+      font-size: 4rem;
+      font-weight: 800;
+      color: #eab308;
+      margin: 1.5rem 0;
+    }
+    .price span {
+      font-size: 1.2rem;
+      color: #64748b;
+      font-weight: 500;
+    }
+    .price-features {
+      list-style: none;
+      margin: 2rem 0;
+      text-align: left;
+    }
+    .price-features li {
+      padding: 0.75rem 0;
+      color: #cbd5e1;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+    .price-features li::before {
+      content: '✓';
+      color: #22c55e;
+      font-weight: bold;
+    }
+    .pricing-cta {
+      width: 100%;
+      background: linear-gradient(135deg, #8b5cf6, #3b82f6);
+      color: white;
+      padding: 1rem;
+      border-radius: 12px;
+      font-weight: 700;
+      font-size: 1.1rem;
+      border: none;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      animation: pulse 2s infinite;
+    }
+    .pricing-cta:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 30px rgba(139, 92, 246, 0.5);
+    }
+
+    /* FAQ */
+    .faq {
+      padding: 6rem 2rem;
+      background: linear-gradient(180deg, #0a0a0a, #0f172a);
+    }
+    .faq-list {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    details {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 12px;
+      margin-bottom: 1rem;
+      overflow: hidden;
+    }
+    summary {
+      padding: 1.25rem 1.5rem;
+      cursor: pointer;
+      font-weight: 600;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: all 0.3s ease;
+    }
+    summary:hover {
+      background: rgba(255, 255, 255, 0.05);
+    }
+    summary::after {
+      content: '+';
+      font-size: 1.5rem;
+      color: #8b5cf6;
+    }
+    details[open] summary::after {
+      content: '−';
+    }
+    .faq-content {
+      padding: 0 1.5rem 1.25rem;
+      color: #94a3b8;
+      line-height: 1.7;
+    }
+
+    /* Footer */
+    footer {
+      padding: 3rem 2rem;
+      text-align: center;
+      border-top: 1px solid rgba(255,255,255,0.1);
+      color: #64748b;
+    }
+    footer a {
+      color: #94a3b8;
+      text-decoration: none;
+      margin: 0 1rem;
+    }
+    footer a:hover {
+      color: #fff;
+    }
+
+    /* Animations */
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Mobile Responsive */
+    @media (max-width: 768px) {
+      .hero h1 { font-size: 2rem; }
+      .hero p { font-size: 1rem; }
+      .demo-container { grid-template-columns: 1fr; }
+      .demo-arrow { display: none; }
+      .steps { flex-direction: column; }
+      .trust-badges { flex-direction: column; gap: 1rem; }
+    }
   </style>
 </head>
 <body>
-  <div class="container">
-    <h1>Markdown to PDF</h1>
-    <p>Convert Markdown documents to beautiful PDFs instantly</p>
-    <a href="#" class="cta" id="buyBtn">Get Started — 9</a>
-  </div>
+  <nav>
+    <div class="logo">
+      <span>📄</span>
+      <span>MD2PDF</span>
+    </div>
+    <a href="#pricing" class="nav-cta">Get Started</a>
+  </nav>
+
+  <section class="hero">
+    <div class="hero-badge">
+      <span>⚡</span>
+      <span>Instant PDF Generation</span>
+    </div>
+    <h1>Markdown to <span class="gradient-text">PDF Pro</span></h1>
+    <p>Transform your Markdown documents into beautifully formatted PDFs in seconds. Perfect for technical documentation, reports, resumes, and ebooks.</p>
+    <button class="hero-cta" id="buyBtn">
+      <span>Get Instant Access</span>
+      <span>→</span>
+    </button>
+    <div class="trust-badges">
+      <span>🛡️ Secure Processing</span>
+      <span>⚡ Instant Delivery</span>
+      <span>💯 Satisfaction Guaranteed</span>
+    </div>
+  </section>
+
+  <section class="demo-section">
+    <div class="section-header">
+      <h2>See It <span class="gradient-text">In Action</span></h2>
+      <p>Paste your Markdown on the left, get a beautiful PDF on the right</p>
+    </div>
+    <div class="demo-wrapper">
+      <div class="demo-container">
+        <div class="demo-box">
+          <h4>Markdown Input</h4>
+          <div><span class="md-h1"># Project Proposal</span></div>
+          <div></div>
+          <div><span class="md-bold">**Executive Summary**</span></div>
+          <div>This proposal outlines the Q4 initiative...</div>
+          <div></div>
+          <div><span class="md-h2">## Key Objectives</span></div>
+          <div>• Increase efficiency by 40%</div>
+          <div>• Reduce operational costs</div>
+          <div>• Deploy by end of quarter</div>
+          <div></div>
+          <div><span class="md-code">`code samples here`</span></div>
+        </div>
+        <div class="demo-box" style="background: white; color: #333;">
+          <h4 style="color: #666;">PDF Preview</h4>
+          <div style="font-size: 1.2rem; font-weight: bold; color: #1a1a1a; margin-bottom: 1rem; border-bottom: 2px solid #8b5cf6; padding-bottom: 0.5rem;">Project Proposal</div>
+          <div style="font-weight: 600; margin-bottom: 0.5rem;">Executive Summary</div>
+          <div style="color: #444; margin-bottom: 1rem;">This proposal outlines the Q4 initiative...</div>
+          <div style="font-size: 1rem; font-weight: 600; color: #8b5cf6; margin: 1rem 0 0.5rem;">Key Objectives</div>
+          <div style="color: #444;">• Increase efficiency by 40%</div>
+          <div style="color: #444;">• Reduce operational costs</div>
+          <div style="color: #444;">• Deploy by end of quarter</div>
+          <div style="background: #f3f4f6; padding: 0.5rem; border-radius: 4px; margin-top: 1rem; font-family: monospace;">code samples here</div>
+        </div>
+      </div>
+      <div class="demo-arrow">➜</div>
+    </div>
+  </section>
+
+  <section class="features">
+    <div class="section-header">
+      <h2>Powerful <span class="gradient-text-alt">Features</span></h2>
+      <p>Everything you need to create professional PDF documents</p>
+    </div>
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon">🎨</div>
+        <h3>Beautiful Themes</h3>
+        <p>Choose from multiple professionally designed themes. GitHub-style, academic, minimal, or corporate layouts.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🖼️</div>
+        <h3>Image Support</h3>
+        <p>Automatic image embedding and optimization. Supports PNG, JPG, SVG with proper sizing and alignment.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">📊</div>
+        <h3>Table Rendering</h3>
+        <p>Complex Markdown tables rendered beautifully with proper borders, alignment, and responsive sizing.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">💻</div>
+        <h3>Syntax Highlighting</h3>
+        <p>Code blocks with automatic syntax highlighting in 50+ languages. Perfect for technical documentation.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🔗</div>
+        <h3>Clickable Links</h3>
+        <p>All URLs and anchor links become clickable in the PDF. Internal navigation and external references work perfectly.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">⚡</div>
+        <h3>Instant Processing</h3>
+        <p>No queues, no waiting. Your PDF is generated in milliseconds and ready for immediate download.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="how-it-works">
+    <div class="section-header">
+      <h2>How It <span class="gradient-text">Works</span></h2>
+      <p>Three simple steps to your perfect PDF</p>
+    </div>
+    <div class="steps">
+      <div class="step">
+        <div class="step-number">1</div>
+        <h3>Paste Markdown</h3>
+        <p>Copy your Markdown content or upload a .md file directly into the converter</p>
+      </div>
+      <div class="step">
+        <div class="step-number">2</div>
+        <h3>Choose Style</h3>
+        <p>Select your preferred theme, page size, and orientation for the perfect look</p>
+      </div>
+      <div class="step">
+        <div class="step-number">3</div>
+        <h3>Download PDF</h3>
+        <p>Get your professionally formatted PDF instantly. No watermarks, no limits</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="pricing" id="pricing">
+    <div class="section-header">
+      <h2>Simple <span class="gradient-text">Pricing</span></h2>
+      <p>One-time payment, lifetime access</p>
+    </div>
+    <div class="pricing-card">
+      <div class="pricing-badge">Most Popular</div>
+      <h3>Lifetime Access</h3>
+      <p style="color: #94a3b8; font-size: 0.95rem;">Everything you need, forever</p>
+      <div class="price">$9<span>/one-time</span></div>
+      <ul class="price-features">
+        <li>Unlimited PDF conversions</li>
+        <li>All premium themes included</li>
+        <li>API access for automation</li>
+        <li>Priority support</li>
+        <li>Future updates included</li>
+      </ul>
+      <button class="pricing-cta" id="buyBtn2">Get Instant Access</button>
+    </div>
+  </section>
+
+  <section class="faq">
+    <div class="section-header">
+      <h2>Frequently Asked <span class="gradient-text-alt">Questions</span></h2>
+    </div>
+    <div class="faq-list">
+      <details>
+        <summary>What Markdown flavors are supported?</summary>
+        <div class="faq-content">We support CommonMark, GitHub Flavored Markdown (GFM), and many extended features including tables, task lists, footnotes, and definition lists.</div>
+      </details>
+      <details>
+        <summary>Is there a file size limit?</summary>
+        <div class="faq-content">The standard limit is 10MB per document, which covers the vast majority of use cases. Need more? Contact us for enterprise options.</div>
+      </details>
+      <details>
+        <summary>Can I use my own CSS styles?</summary>
+        <div class="faq-content">Yes! Advanced users can provide custom CSS to style their PDFs exactly how they want. Perfect for matching your brand guidelines.</div>
+      </details>
+      <details>
+        <summary>Is my data secure?</summary>
+        <div class="faq-content">Absolutely. All processing happens in memory and documents are never stored on our servers. Your content remains completely private.</div>
+      </details>
+      <details>
+        <summary>What if I'm not satisfied?</question></summary>
+        <div class="faq-content">We offer a 30-day money-back guarantee. If Markdown to PDF Pro doesn't meet your expectations, just email us for a full refund.</div>
+      </details>
+    </div>
+  </section>
+
+  <footer>
+    <p>© 2025 Markdown to PDF Pro. All rights reserved.</p>
+    <p style="margin-top: 1rem;">
+      <a href="#">Privacy</a>
+      <a href="#">Terms</a>
+      <a href="#">Contact</a>
+    </p>
+  </footer>
+
   <script>
     const CHECKOUT_URL = window.__CHECKOUT_URL || null;
-    document.getElementById('buyBtn').addEventListener('click', (e) => {
-      e.preventDefault();
-      if (CHECKOUT_URL) window.open(CHECKOUT_URL, '_blank');
-      else alert('Store coming soon! Contact @OtonomUniverseCreator on Telegram.');
+    document.querySelectorAll('#buyBtn, #buyBtn2').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.preventDefault();
+        if (CHECKOUT_URL) window.open(CHECKOUT_URL, '_blank');
+        else alert('Store coming soon! Contact @OtonomUniverseCreator on Telegram.');
+      });
+    });
+
+    // Smooth scroll
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function(e) {
+        e.preventDefault();
+        document.querySelector(this.getAttribute('href')).scrollIntoView({ behavior: 'smooth' });
+      });
+    });
+
+    // Fade in on scroll
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.style.opacity = '1';
+          entry.target.style.transform = 'translateY(0)';
+        }
+      });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.feature-card, .step, details').forEach(el => {
+      el.style.opacity = '0';
+      el.style.transform = 'translateY(20px)';
+      el.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+      observer.observe(el);
     });
   </script>
 </body>

@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Markdown to PDF Converter - Professional Document Generator</title>
+    <meta name="description" content="Convert Markdown documents to beautiful PDFs instantly. Perfect for documentation, reports, and professional documents. Developer-friendly with syntax highlighting.">
+    <meta name="keywords" content="markdown to pdf, markdown converter, pdf generator, developer tools, documentation tool, md to pdf, markdown export, professional pdf, syntax highlighting">
+    <meta name="author" content="UniverseCreator">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://markdown-to-pdf.vercel.app/">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://markdown-to-pdf.vercel.app/">
+    <meta property="og:title" content="Markdown to PDF Converter - Professional Document Generator">
+    <meta property="og:description" content="Convert Markdown documents to beautiful PDFs instantly. Perfect for documentation, reports, and professional documents.">
+    <meta property="og:image" content="https://og-forge.vercel.app/api/og?title=Markdown%20to%20PDF%20Converter">
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="https://markdown-to-pdf.vercel.app/">
+    <meta name="twitter:title" content="Markdown to PDF Converter - Professional Document Generator">
+    <meta name="twitter:description" content="Convert Markdown documents to beautiful PDFs instantly. Perfect for documentation, reports, and professional documents.">
+    <meta name="twitter:image" content="https://og-forge.vercel.app/api/og?title=Markdown%20to%20PDF%20Converter">
+    <meta name="twitter:site" content="@universecreator">
+    <meta name="twitter:creator" content="@universecreator">
+    <link rel="stylesheet" type="text/css" href="styles.css">
+  <meta name="twitter:title" content="Markdown to PDF">
+  <meta name="twitter:description" content="Convert Markdown documents to beautiful PDFs instantly">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="@universecreator">
+  <meta name="twitter:creator" content="@universecreator">
+  <link rel="canonical" href="https://markdown-to-pdf.vercel.app">
+</head>
+
+<body>
+    <nav>
+        <div class="navbar">
+            <h1>Markdown to PDF Converter</h1>
+        </div>
+    </nav>
+    <div class="container">
+        <div class="markdown-editor">
+            <textarea id="markdown-input" placeholder="Enter your Markdown here..."></textarea>
+        </div>
+        <input type="file" id="file-upload" accept=".md">
+        <button id="upload-button">Upload Markdown File</button>
+
+        <!-- Add the "Convert to PDF" button here -->
+        <button id="convert-button">Convert to PDF</button>
+    </div>
+    <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "Markdown to PDF",
+  "description": "Convert Markdown to PDF instantly with beautiful formatting. Professional document generation.",
+  "applicationCategory": "DeveloperApplication",
+  "operatingSystem": "Any",
+  "offers": {
+    "@type": "Offer",
+    "price": "9",
+    "priceCurrency": "USD"
+  },
+  "aggregateRating": {
+    "@type": "AggregateRating",
+    "ratingValue": "4.8",
+    "ratingCount": "100"
+  }
+}
+</script>
+  <script src="app.js"></script>
+    <script>
+        document.getElementById('convert-button').addEventListener('click', function () {
+            const markdownContent = document.getElementById('markdown-input').value;
+
+            fetch('/convert', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ markdownContent }),
+            })
+                .then(response => response.blob())
+                .then(data => {
+                    const blob = new Blob([data], { type: 'application/pdf' });
+                    const url = URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = 'Markdown-to-PDF.pdf';
+                    a.style.display = 'none';
+                    document.body.appendChild(a);
+                    a.click();
+                    document.body.removeChild(a);
+                    URL.revokeObjectURL(url);
+                });
+        });
+    </script>
+
+</body>
+
+</html>
